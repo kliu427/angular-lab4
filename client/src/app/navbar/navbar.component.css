@@ -1,0 +1,9 @@
+button{
+    padding: auto;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
