@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "firebase": "^10.7.0",
-    "firebase-admin": "^11.11.1"
+    "@angular/fire": "^16.0.0"
   }
 }
