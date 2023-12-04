@@ -1,15 +1,13 @@
-const mysql = require('mysql');
+const mysql2 = require('mysql2');
 const bcrypt = require('bcrypt');
 
 
-
-
-const connection = mysql.createConnection({
+const connection = mysql2.createConnection({
     host: '127.0.0.1',
     user: 'root',
     password: 'ChaosHockey71!',
     database: 'testDB'
-  }); 
+  }).promise(); 
 
   async function hashPassword(password) {
     try {
@@ -22,28 +20,31 @@ const connection = mysql.createConnection({
     }
   }
   
-  checkUser("kliu71@outlook.com", 'admin1');
   async function checkUser(email, pass) {
+    
     try {
         // Query the database to retrieve the user's hashed password based on the provided email
-        const hPass = connection.query('SELECT password FROM users WHERE email = ?', [email]);
+        const rows = await connection.query('SELECT password FROM users WHERE email = ?', [email]);
         
-        if (hPass == null) {
-          // User not found
-          return { success: false, message: 'Invalid credentials' };
+        if (rows == null) {
+        // User not found
+        return { success: false, message: 'Invalid credentials' };
         }
-        hPassString = hPass[0];
-    
+
+        const hPassString = rows[0][0].password;
+        
         // Compare the provided password with the stored hashed password
         const passwordMatch = await bcrypt.compare(pass, hPassString);
-        console.log(passwordMatch);
+        
         if (passwordMatch) {
-          return { success: true, message: 'Login successful', user: user };
+        // If the password matches, you can fetch the user data or create 'user' object here
+        const user = { email: email /* Add other user data here if needed */ };
+        return { success: true, message: 'Login successful', user: user };
         } else {
-          return { success: false, message: 'Invalid credentials' };
+        return { success: false, message: 'Invalid credentials' };
         }
       } catch (error) {
-        console.error('Login error:', error);
+          console.error('Login error: ', error);
         return { success: false, message: 'Login failed' };
       }
   }
@@ -84,4 +85,8 @@ const connection = mysql.createConnection({
     }
   }
 
-  module.exports = {addUser, removeUser};
+    module.exports = {
+      addUser, 
+      removeUser, 
+      checkUser
+    };
