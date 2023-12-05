@@ -13,8 +13,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent
+    AppComponent,    
+    HomePageComponent,
+    NavbarComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,6 @@ import { NavbarComponent } from './navbar/navbar.component';
     MatToolbarModule,
     MatButtonModule,
     FormsModule,
-    HomePageComponent,
     ReactiveFormsModule
   ],
   providers: [],

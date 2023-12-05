@@ -12,10 +12,10 @@ import { FormsModule } from '@angular/forms';
 
 
 export class HomePageComponent{
-  name: string = '';
-  race: string = '';
-  power: string = '';
-  publisher: string = '';
+  name: any = '';
+  race: any = '';
+  power: any = '';
+  publisher: any = '';
   searchResults: any[] = [];
 
   constructor(private http: HttpClient) {}
@@ -26,7 +26,5 @@ export class HomePageComponent{
         this.searchResults = data; 
       });
   }
-  test(){
-    alert("asldjklkasdj;flkasd")
-  }
+
 }

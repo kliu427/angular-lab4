@@ -6,10 +6,10 @@
         <Link to="/signin" placeholder='Sign In'/>
     </div>
     <div className="search-bar">
-        <input [(ngModel)]= "name" #ctrl="ngModel" required type="text" id="name_input" placeholder="Search Superhero Name">
-        <input [(ngModel)]="race" #ctrl="ngModel" required type="text" id="race_input" placeholder="Race">
-        <input [(ngModel)]="power" #ctrl="ngModel" required type="text" id="power_input" placeholder="Powers">
-        <input [(ngModel)]="publisher" #ctrl="ngModel" required type="text" id="publisher_input" placeholder="Publisher">
+        <input [(ngModel)]= "name" required type="text" id="name_input" placeholder="Search Superhero Name">
+        <input [(ngModel)]="race" required type="text" id="race_input" placeholder="Race">
+        <input [(ngModel)]="power" required type="text" id="power_input" placeholder="Powers">
+        <input [(ngModel)]="publisher" required type="text" id="publisher_input" placeholder="Publisher">
         <button (click) = "searchSuperheroes()" id="search_btn">Search</button>
     </div>
     <ol id="search_results">
