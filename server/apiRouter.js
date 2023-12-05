@@ -71,7 +71,6 @@ function match(name, race, powers, publisher) {
 
   for (name of matchingNames){
     const heroname = name.name;
-    console.log(matchingPublishers)
     if(matchingPowers.some(hero => hero.name === heroname) && matchingRaces.some(hero => hero.name === heroname && matchingPublishers.some(hero => hero.name === heroname))) {
       matchingResults.push(name);
     }
