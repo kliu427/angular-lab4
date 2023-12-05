@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const fs = require('fs'); 
+const cors = require('cors');
+app.use(cors());
 const port = 3000;
 const router = express.Router();
 const adminRouter = express.Router();
