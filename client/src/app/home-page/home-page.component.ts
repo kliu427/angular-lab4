@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 import fs from 'fs'; 
 
 
@@ -12,24 +11,11 @@ import fs from 'fs';
 })
 
 
-export class HomePageComponent implements OnInit{
-  superheroInfo = JSON.parse(fs.readFileSync('../../../server/superhero_info.json', 'utf8'));
-  superheroPowers = JSON.parse(fs.readFileSync('../../../server/superhero_powers.json', 'utf8'));  
-  constructor(private http: HttpClient) {}
+export class HomePageComponent{
+  superheroInfo = JSON.parse(fs.readFileSync('../server/superhero_info.json', 'utf8'));
+  superheroPowers = JSON.parse(fs.readFileSync('../server/superhero_powers.json', 'utf8'));  
 
-  ngOnInit() {
-    this.findRaces();
-  }
-
-  async findPublishers(){
-    
-  }
-  async findRaces(){
-    
-  }
-  async findPowers(){
-    
-  }
+  
 
 
   test(){

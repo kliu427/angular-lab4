@@ -1,10 +1,16 @@
 const express = require('express');
 const app = express();
+const fs = require('fs'); 
 const port = 3000;
 const router = express.Router();
 const adminRouter = express.Router();
 const mysql2 = require('mysql2');
 const bcrypt = require('bcrypt');
+var stringSimilarity = require("string-similarity");
+
+
+const superheroInfo = JSON.parse(fs.readFileSync('server/superhero_info.json', 'utf8'));
+const superheroPowers = JSON.parse(fs.readFileSync('server/superhero_powers.json', 'utf8'));
 
 const connection = mysql2.createConnection({
   host: '127.0.0.1',
@@ -12,6 +18,67 @@ const connection = mysql2.createConnection({
   password: 'ChaosHockey71!',
   database: 'testDB'
 }).promise(); 
+
+router.get('/search/:name/:race/:power/:publisher', (req, res) =>{
+  const heros = match(req.params.name, req.params.race, req.params.power, req.params.publisher);
+  
+  res.json(heros);
+
+});
+
+//function to search by parameters
+function match(name, race, powers, publisher) {
+  const matchingNames = [];
+  const matchingRaces = [];
+  const matchingPowers = [];
+  const matchingPublishers = [];
+  const matchingResults = [];
+  const nameField = name.toLowerCase();
+  const raceField = race.toLowerCase();
+  const powersField = powers.toLowerCase();
+  let formattedQueryField = powersField.charAt(0).toUpperCase() + powersField.slice(1);
+  const publishersField = publisher.toLowerCase();
+
+  for (heros of superheroInfo){
+
+    if (stringSimilarity.compareTwoStrings(heros["name"], nameField)>0.2){
+      matchingNames.push({name: heros['name'] , publisher: heros['Publisher']});
+    }
+  }
+  for (heros of superheroInfo){
+    if (stringSimilarity.compareTwoStrings(heros["Race"], raceField)>0.2){
+        matchingRaces.push({name: heros['name'] , publisher: heros['Publisher']});
+    }
+  }
+
+  for (heros of superheroInfo){
+    if (stringSimilarity.compareTwoStrings(heros["Publisher"], publishersField)>0.2){
+        matchingPublishers.push({name: heros['name'] , publisher: heros['Publisher']});
+    }
+  }
+
+
+  for (powers of superheroPowers){
+      if (powers[formattedQueryField] == "True"){
+        const name = powers['hero_names']
+        for (heros of superheroInfo){
+          if (name == heros["name"]){
+              matchingPowers.push({name: powers['hero_names'] , publisher: heros['Publisher']});
+          }
+        }
+      }
+  }
+
+  for (name of matchingNames){
+    const heroname = name.name;
+    console.log(matchingPublishers)
+    if(matchingPowers.some(hero => hero.name === heroname) && matchingRaces.some(hero => hero.name === heroname && matchingPublishers.some(hero => hero.name === heroname))) {
+      matchingResults.push(name);
+    }
+  }
+  return matchingResults;
+}
+
 
 async function login(email, pass) {
     

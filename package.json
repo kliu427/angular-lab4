@@ -3,7 +3,9 @@
     "@angular/fire": "^16.0.0",
     "bcrypt": "^5.1.1",
     "express": "^4.18.2",
-    "mysql2": "^3.6.5"
+    "mysql2": "^3.6.5",
+    "regexp": "^1.0.0",
+    "string-similarity": "^4.0.4"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

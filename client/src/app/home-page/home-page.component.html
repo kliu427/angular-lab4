@@ -1,22 +1,17 @@
 <div className="home-page">
     <h1>Welcome to Superhero Search!</h1>
-    <p>Look up your favourite heroes right here!</p>
+    <body>Look up your favourite heroes right here!</body>
     <div className="options">
         <Link to="/createaccount" placeholder='Create Account'/>
         <Link to="/signin" placeholder='Sign In'/>
     </div>
     <div className="search-bar">
-        <input type="text" id="search_input" placeholder="Search Superhero Name">
-            <select id="race_search">
-                <option selected hidden value="default" selected>Select Race</option>            
-            </select>
-            <select id="publisher_search">
-                <option selected hidden value="default" selected>Select Publisher</option>            
-            </select>
-            <select id="power_search">
-                <option selected hidden value="default" selected>Select Power</option>            
-            </select>
-            <input class ="int_input" type="number" id="int_input" value = "1" step="1" min = "1" max = "20">
+        <input type="text" id="name_input" placeholder="Search Superhero Name">
+        <input type="text" id="race_input" placeholder="Race">
+        <input type="text" id="power_input" placeholder="Powers">
+        <input type="text" id="publisher_input" placeholder="Publisher">
         <button (click) = "test()" id="search_btn">Search</button>
     </div>
+    <ol id="search_results">
+    </ol>
 </div>
