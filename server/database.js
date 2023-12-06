@@ -73,20 +73,41 @@ const connection = mysql2.createConnection({
     }
   }
 
-  async function addList(listName, username, ids, rating, description, creationDate) {
+  async function addList(listName, description) {
     try {
       await connection.query(
-        'INSERT INTO lists (listname, username, ids, average_rating, description, visibility_flag, creationDate) VALUES (?, ?, JSON_ARRAY(?), ?, ?, ?, ?)',
-        [listName, username, JSON.stringify(ids), rating, description, false, creationDate]
+        'INSERT INTO `testdb`.lists (list_name, description) VALUES (?, ?)',
+        [listName, description]
       );
+
     } catch (error) {
       console.log(error);
       throw new Error("Can't Add List");
     }
   }
 
+  async function getList(listName) {
+    try {
+      const value = await connection.query(
+        'SELECT * FROM `testdb`.l ist_heroes WHERE list_name = ?',
+        [listName]
+      );
+      const heroInfo = [];
+      heroInfo.push(listName);
+      for (info of value[0]){
+        heroInfo.push(info['hero_info'])
+      }
+      return heroInfo;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Can't find list");
+    }
+  }
+
     module.exports = {
       addUser, 
       removeUser, 
-      checkUser
+      checkUser,
+      addList,
+      getList
     };
