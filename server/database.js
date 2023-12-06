@@ -73,11 +73,11 @@ const connection = mysql2.createConnection({
     }
   }
 
-  async function addList(listName, description) {
+  async function addList(listName, description, owner) {
     try {
       await connection.query(
-        'INSERT INTO `testdb`.lists (list_name, description) VALUES (?, ?)',
-        [listName, description]
+        'INSERT INTO `testdb`.lists (list_name, description, owner) VALUES (?, ?, ?)',
+        [listName, description, owner]
       );
 
     } catch (error) {
@@ -86,14 +86,37 @@ const connection = mysql2.createConnection({
     }
   }
 
+  async function deleteList(listName) {
+    try {
+      await connection.query(
+        'DELETE FROM `testdb`.list_heroes WHERE list_name = ?',
+        [listName]
+      );
+      await connection.query(
+        'DELETE FROM `testdb`.lists WHERE list_name = ?',
+        [listName]
+      );
+
+    } catch (error) {
+      console.log(error);
+      throw new Error("Can't delete List");
+    }
+  }
+
   async function getList(listName) {
     try {
       const value = await connection.query(
-        'SELECT * FROM `testdb`.l ist_heroes WHERE list_name = ?',
+        'SELECT * FROM `testdb`.list_heroes WHERE list_name = ?',
+        [listName]
+      );
+      const listInfo = await connection.query(
+        'SELECT * FROM `testdb`.lists WHERE list_name = ?',
         [listName]
       );
       const heroInfo = [];
       heroInfo.push(listName);
+      const listData = listInfo[0];
+      heroInfo.push(listData.map(desc => desc.description).join(' '));
       for (info of value[0]){
         heroInfo.push(info['hero_info'])
       }
@@ -109,5 +132,6 @@ const connection = mysql2.createConnection({
       removeUser, 
       checkUser,
       addList,
-      getList
+      getList,
+      deleteList
     };

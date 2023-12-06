@@ -111,7 +111,7 @@ async function login(email, pass) {
 }
 
 // Create a connection to the database
-const {addUser, removeUser, checkUser, addList, getList} = require('./database');
+const {addUser, removeUser, checkUser, addList, getList, deleteList} = require('./database');
 
 router.post('/create_user/:username/:password/:email', async(req, res) =>{
     const username = req.params.username;
@@ -158,13 +158,26 @@ router.get('/get_list/:list_name', async (req, res) =>{
   }
 });
 
-router.post('/add_list/:list_name', async (req, res) =>{
+router.post('/add_list/:list_name/:description/:owner', async (req, res) =>{
   const listName = req.params.list_name;
+  const listDescription = req.params.description;
+  const listOwner = req.params.owner;
+
   try {
-    const list = (await getList(listName));
+    const list = (await addList(listName, listDescription, listOwner));
     res.status(201).send(list);
     console.log(list)
   }catch (error) {
+    res.status(500).json({"error": error});
+  }
+});
+
+router.delete('/delete_list/:name', async(req, res) =>{
+  const listName = req.params.name;
+  try {
+    await deleteList(listName);
+    res.status(201).send('List deleted!');
+  } catch (error) {
     res.status(500).json({"error": error});
   }
 });
