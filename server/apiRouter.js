@@ -111,7 +111,24 @@ async function login(email, pass) {
 }
 
 // Create a connection to the database
-const {addUser, removeUser, checkUser, addList, getList, deleteList} = require('./database');
+const {addUser, removeUser, checkUser, addList, getList, deleteList, addHeroToList} = require('./database');
+
+router.post('/add_hero/:list_name/:hero_name', async (req, res) =>{
+  const listName = req.params.list_name;
+  const heroName = req.params.hero_name;
+  for (hero of superheroInfo){
+    if (hero["name"] == heroName){
+      
+    }
+  }
+  try {
+    const list = (await addHeroToList(listName, listDescription, listOwner));
+    res.status(201).send(list);
+    console.log(list)
+  }catch (error) {
+    res.status(500).json({"error": error});
+  }
+});
 
 router.post('/create_user/:username/:password/:email', async(req, res) =>{
     const username = req.params.username;

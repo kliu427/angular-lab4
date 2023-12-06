@@ -1,20 +1,26 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    HttpClientModule
+  ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
 
 
 export class HomePageComponent{
-  name: any = '';
-  race: any = '';
-  power: any = '';
-  publisher: any = '';
+  name: String = '';
+  race: String = '';
+  power: String = '';
+  publisher: String = '';
   searchResults: any[] = [];
 
   constructor(private http: HttpClient) {}

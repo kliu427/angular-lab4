@@ -86,6 +86,19 @@ const connection = mysql2.createConnection({
     }
   }
 
+  async function addHeroToList(listName, hero_info) {
+    try {
+      await connection.query(
+        'INSERT INTO `testdb`.list_heroes (list_name, hero_info) VALUES (?, ?)',
+        [listName, hero_info]
+      );
+
+    } catch (error) {
+      console.log(error);
+      throw new Error("Can't add hero name to list");
+    }
+  }
+
   async function deleteList(listName) {
     try {
       await connection.query(
@@ -133,5 +146,6 @@ const connection = mysql2.createConnection({
       checkUser,
       addList,
       getList,
-      deleteList
+      deleteList,
+      addHeroToList
     };
