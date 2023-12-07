@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule, HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, provideHttpClient, HttpClientXsrfModule, HttpHandler } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import {MatToolbarModule} from '@angular/material/toolbar'; 
@@ -32,7 +32,8 @@ import { withFetch } from '@angular/common/http';
     AppRoutingModule
   ],
   providers: [
-    { provide: HttpClient, useFactory: withFetch }],
+    { provide: HttpClient, useFactory: withFetch }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
