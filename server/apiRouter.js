@@ -3,6 +3,7 @@ const app = express();
 const fs = require('fs'); 
 const cors = require('cors');
 app.use(cors());
+app.use(express.json());
 const port = 3000;
 const router = express.Router();
 const adminRouter = express.Router();
@@ -21,11 +22,10 @@ const connection = mysql2.createConnection({
   database: 'testDB'
 }).promise(); 
 
-router.get('/search/:name/:race/:power/:publisher', (req, res) =>{
-  const heros = match(req.params.name, req.params.race, req.params.power, req.params.publisher);
-  
+router.post('/search', (req, res) =>{
+  const { name, race, power, publisher } = req.body;
+  const heros = match(name, race, power, publisher);
   res.json(heros);
-
 });
 
 //function to search by parameters
@@ -112,6 +112,7 @@ async function login(email, pass) {
 
 // Create a connection to the database
 const {addUser, removeUser, checkUser, addList, getList, deleteList, addHeroToList} = require('./database');
+const database = require ('./database');
 
 router.post('/add_hero/:list_name/:hero_name', async (req, res) =>{
   const listName = req.params.list_name;

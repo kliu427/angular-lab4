@@ -116,6 +116,19 @@ const connection = mysql2.createConnection({
     }
   }
 
+  async function createRating(listName, userName, rating) {
+    try {
+      await connection.query(
+        'INSERT INTO `testdb`.reviews (list_name, username, rating) VALUES (?, ?, ?)',
+        [listName, username, rating]
+      );
+
+    } catch (error) {
+      console.log(error);
+      throw new Error("Can't add rating to list");
+    }
+  }
+
   async function getList(listName) {
     try {
       const value = await connection.query(
@@ -147,5 +160,6 @@ const connection = mysql2.createConnection({
       addList,
       getList,
       deleteList,
-      addHeroToList
+      addHeroToList,
+      createRating
     };
